@@ -1,18 +1,35 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
-namespace LabWork
+class Program
 {
-    // Даний проект є шаблоном для виконання лабораторних робіт
-    // з курсу "Об'єктно-орієнтоване програмування та патерни проектування"
-    // Необхідно змінювати і дописувати код лише в цьому проекті
-    // Відео-інструкції щодо роботи з github можна переглянути 
-    // за посиланням https://www.youtube.com/@ViktorZhukovskyy/videos 
-    class Program
+    static void Main()
     {
-        static void Main(string[] args)
+        string text = @"
+            Цей текст містить деякі числа в дужках, наприклад: (2123), [4456], (78), [910], 
+            а також інші числа: 321, 654 і текст без дужок.
+        ";
+
+        string pattern = @"\((\d+)\)|\[(\d+)\]";
+
+
+        MatchCollection matches = Regex.Matches(text, pattern);
+
+        List<int> numbersInBrackets = new List<int>();
+
+        foreach (Match match in matches)
         {
-            
-            Console.WriteLine("Hello World!");
+            if (match.Groups[1].Success)
+                numbersInBrackets.Add(int.Parse(match.Groups[1].Value));
+            if (match.Groups[2].Success)
+                numbersInBrackets.Add(int.Parse(match.Groups[2].Value));
+        }
+
+        Console.WriteLine("Числа в дужках:");
+        foreach (int number in numbersInBrackets)
+        {
+            Console.WriteLine(number);
         }
     }
 }
